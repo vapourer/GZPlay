@@ -1,0 +1,5 @@
+No.,Object Name,RA,DEC,Type,Velocity,Redshift,Redshift Flag,Magnitude and Filter,Separation,References,Notes,Photometry Points,Positions,Redshift Points,Diameter Points,Associations
+1,"<a HREF=""#"" onclick=""getObjectSearchInfo(jQuery, 2, this); return false;"">CANDELS J141950.55+525715.8</a>",214.96058,52.95442,IrS,461680.00,1.54,PUN,22.5L,0.003,3,0,22,4,1,0,0
+2,"<a HREF=""#"" onclick=""getObjectSearchInfo(jQuery, 2, this); return false;"">CANDELS J141950.53+525716.4</a>",214.96054,52.95458,G,331870.00,1.107,PUN,,0.012,1,0,0,1,1,0,0
+3,"<a HREF=""#"" onclick=""getObjectSearchInfo(jQuery, 2, this); return false;"">CANDELS J141950.72+525713.7</a>",214.96135,52.95381,G,354954.00,1.184,PUN,,0.043,1,0,0,1,1,0,0
+4,"<a HREF=""#"" onclick=""getObjectSearchInfo(jQuery, 2, this); return false;"">CANDELS J141950.43+525712.9</a>",214.96014,52.95360,G,704213.00,2.349,PUN,,0.051,1,0,0,1,1,0,0
