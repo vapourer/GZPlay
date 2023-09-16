@@ -24,6 +24,7 @@ def calculate(flux_rad_0p50, flux_rad_0p95, flux_rad_0p99, mag_select, radius_se
     print('pixrad: ' + str(pixrad))
     print('brtfac: ' + str(BrtFacCalculator(float(mag_select), float(radius_select)).calculate()))
     print('pixrad converted to arcseconds: ' + str(arc_second_converter.convert_pixrad()))
+    print('pixrad converted to arcminutes: ' + str(arc_second_converter.convert_pixrad_arcminutes()))
     print('flux_rad_0p50 converted to arcseconds: ' + str(arc_second_converter.convert(float(flux_rad_0p50))))
     print('flux_rad_0p95 converted to arcseconds: ' + str(arc_second_converter.convert(float(flux_rad_0p95))))
     print('flux_rad_0p99 converted to arcseconds: ' + str(arc_second_converter.convert(float(flux_rad_0p99))))
