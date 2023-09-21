@@ -1,0 +1,5 @@
+No.,Object Name,RA,DEC,Type,Velocity,Redshift,Redshift Flag,Magnitude and Filter,Separation,References,Notes,Photometry Points,Positions,Redshift Points,Diameter Points,Associations
+1,"<a HREF=""#"" onclick=""getObjectSearchInfo(jQuery, 2, this); return false;"">DEEP2 13011816</a>",214.76456,52.84338,G,498855.00,1.664,PUN,23.8R,0.011,8,0,24,5,2,0,0
+2,"<a HREF=""#"" onclick=""getObjectSearchInfo(jQuery, 2, this); return false;"">CANDELS J141903.69+525036.1</a>",214.76538,52.84338,G,667938.00,2.228,PUN,,0.04,1,0,0,1,1,0,0
+3,"<a HREF=""#"" onclick=""getObjectSearchInfo(jQuery, 2, this); return false;"">CANDELS J141903.16+525034.3</a>",214.76312,52.84279,IrS,578000.00,1.928,PUN,,0.053,2,0,24,3,1,0,0
+4,"<a HREF=""#"" onclick=""getObjectSearchInfo(jQuery, 2, this); return false;"">CANDELS J141903.30+525039.3</a>",214.76376,52.84425,G,343562.00,1.146,PUN,,0.059,1,0,0,1,1,0,0
