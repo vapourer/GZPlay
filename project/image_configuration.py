@@ -2,6 +2,8 @@ import math
 import numpy as np
 from astropy.wcs import WCS
 
+from project.transformation import Transformation
+
 
 class ImageConfiguration:
     ORIGIN = 0
@@ -9,14 +11,6 @@ class ImageConfiguration:
     IMAGE_RADIUS = 250
     MARKER_RADIUS = 10
     LABEL_OFFSET = 5
-
-    # F115W
-    # F150W
-    # F200W
-    # F277W
-    # F356W
-    # F410M
-    # F444W
 
     PC_DEFAULT = [0.6498658740531003, -0.7600489100980279, -0.7600489100980279, -0.6498658740531003]
     PC_F115W = [0.6431047847515428, 0.7657781897061785, 0.7657781897061785, -0.6431047847515428]
@@ -26,7 +20,7 @@ class ImageConfiguration:
     PC_F356W = [0.6498829221367624, 0.7600343331159343, 0.7600343331159343, -0.6498829221367624]
     PC_F410M = [0.6498819340851529, 0.7600351779685866, 0.7600351779685866, -0.6498819340851529]
     PC_F444W = [0.6498843448164907, 0.7600331166221908, 0.7600331166221908, -0.6498843448164907]
-    CDELT_INITIAL_VALUE = [-0.0000015, 0.0000015]
+    CDELT_INITIAL_VALUE = [-0.000004, 0.000004]
 
     def __init__(self, ha: float, dec: float):
         self.w = WCS(naxis=2)
@@ -37,15 +31,38 @@ class ImageConfiguration:
         self.w.wcs.pc = [[self.PC_DEFAULT[0], self.PC_DEFAULT[1]],
                          [self.PC_DEFAULT[2], self.PC_DEFAULT[3]]]
 
-    def update_transformation_matrix(self, matrix: list[float]):
-        self.w.wcs.pc = [[matrix[0], matrix[1]],
-                         [matrix[2], matrix[3]]]
+    def set_transformation_matrix(self, transformation: Transformation):
+        matrix = self.PC_DEFAULT
 
-    def convert_sky_coordinates(self, ha: [float], dec: [float]) -> np.ndarray:
-        return self.w.wcs_world2pix(ha, dec, self.ORIGIN)
+        match transformation:
+            case Transformation.F115W:
+                matrix = self.PC_F115W
+            case Transformation.F150W:
+                matrix = self.PC_F150W
+            case Transformation.F200W:
+                matrix = self.PC_F200W
+            case Transformation.F277W:
+                matrix = self.PC_F277W
+            case Transformation.F356W:
+                matrix = self.PC_F356W
+            case Transformation.F410M:
+                matrix = self.PC_F410M
+            case Transformation.F444W:
+                matrix = self.PC_F444W
+
+        self.w.wcs.pc = [[matrix[0], matrix[1]], [matrix[2], matrix[3]]]
 
     def primary_header(self):
         print(self.w)
+
+    def set_cdelt(self, cdelt_pair: [float, float]):
+        self.w.wcs.cdelt = cdelt_pair
+
+    def get_cdelt(self) -> [float, float]:
+        return self.w.wcs.cdelt
+
+    def convert_sky_coordinates(self, ha: [float], dec: [float]) -> np.ndarray:
+        return self.w.wcs_world2pix(ha, dec, self.ORIGIN)
 
     # The following function supplied by Claude Cornen,
     # who also advised on the WCS configuration.
