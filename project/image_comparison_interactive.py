@@ -1,6 +1,6 @@
 import matplotlib
 from PyQt6 import QtCore, QtWidgets
-from PyQt6.QtWidgets import QVBoxLayout, QWidget, QHBoxLayout, QPushButton, QRadioButton, QGridLayout, QLineEdit
+from PyQt6.QtWidgets import QVBoxLayout, QWidget, QHBoxLayout, QPushButton, QRadioButton, QGridLayout, QLineEdit, QLabel
 
 from project.image_canvas import ImageCanvas
 from project.transformation import Transformation
@@ -16,11 +16,11 @@ class ImageComparisonInteractive(QtWidgets.QMainWindow):
         self.png = png
         self.ned = ned
 
-        main_layout = QVBoxLayout()
+        main_layout = QGridLayout()
 
         self.canvas = ImageCanvas(ha, dec, png, ned)
         self.canvas.load()
-        main_layout.addWidget(self.canvas)
+        main_layout.addWidget(self.canvas, 0, 0)
 
         filters_layout = QGridLayout()
 
@@ -73,8 +73,26 @@ class ImageComparisonInteractive(QtWidgets.QMainWindow):
         cdelt_layout_widget = QWidget()
         cdelt_layout_widget.setLayout(cdelt_layout)
 
-        main_layout.addWidget(filters_layout_widget)
-        main_layout.addWidget(cdelt_layout_widget)
+        main_layout.addWidget(filters_layout_widget, 1, 0)
+        main_layout.addWidget(cdelt_layout_widget, 2, 0)
+
+        self.wcs_header_label = QLabel()
+        self.wcs_header_label.setText(self.canvas.primary_header())
+        main_layout.addWidget(self.wcs_header_label, 0, 1)
+
+        button_rot90_0_1 = QPushButton('rot90 axes=(0,1)')
+        button_rot90_0_1.clicked.connect(lambda: self.rotate_pi_slash_two_0_1())
+
+        button_rot90_1_0 = QPushButton('rot90 axes=(1, 0)')
+        button_rot90_1_0.clicked.connect(lambda: self.rotate_pi_slash_two_1_0())
+
+        bottom_right_layout = QVBoxLayout()
+        bottom_right_layout.addWidget(button_rot90_0_1)
+        bottom_right_layout.addWidget(button_rot90_1_0)
+
+        bottom_right_layout_widget = QWidget()
+        bottom_right_layout_widget.setLayout(bottom_right_layout)
+        main_layout.addWidget(bottom_right_layout_widget, 1, 1)
 
         main_layout_widget = QWidget()
         main_layout_widget.setLayout(main_layout)
@@ -85,6 +103,16 @@ class ImageComparisonInteractive(QtWidgets.QMainWindow):
 
     def update_cdelt(self):
         self.canvas.update_cdelt(float(self.cdelt_input.text()))
+        self.wcs_header_label.setText(self.canvas.primary_header())
 
     def update_transformation_matrix(self, transformation: Transformation):
         self.canvas.update_transformation_matrix(transformation)
+        self.wcs_header_label.setText(self.canvas.primary_header())
+
+    def rotate_pi_slash_two_0_1(self):
+        self.canvas.rotate_pi_slash_two_0_1()
+        self.wcs_header_label.setText(self.canvas.primary_header())
+
+    def rotate_pi_slash_two_1_0(self):
+        self.canvas.rotate_pi_slash_two_1_0()
+        self.wcs_header_label.setText(self.canvas.primary_header())

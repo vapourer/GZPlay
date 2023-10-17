@@ -37,6 +37,17 @@ class ImageCanvas(FigureCanvasQTAgg):
     def get_cdelt(self) -> [float, float]:
         return self.image_configuration.get_cdelt()
 
+    def rotate_pi_slash_two_0_1(self):
+        self.image_configuration.rotate_pi_slash_two_0_1()
+        self.update_image()
+
+    def rotate_pi_slash_two_1_0(self):
+        self.image_configuration.rotate_pi_slash_two_1_0()
+        self.update_image()
+
+    def primary_header(self) -> str:
+        return self.image_configuration.primary_header()
+
     def update_image(self):
         self.figure.clear()
         self.axes = self.figure.add_subplot(111)
