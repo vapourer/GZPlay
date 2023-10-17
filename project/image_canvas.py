@@ -45,6 +45,14 @@ class ImageCanvas(FigureCanvasQTAgg):
         self.image_configuration.rotate_pi_slash_two_1_0()
         self.update_image()
 
+    def flip_left_right(self):
+        self.image_configuration.flip_left_right()
+        self.update_image()
+
+    def flip_up_down(self):
+        self.image_configuration.flip_up_down()
+        self.update_image()
+
     def primary_header(self) -> str:
         return self.image_configuration.primary_header()
 

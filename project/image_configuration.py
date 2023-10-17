@@ -66,6 +66,12 @@ class ImageConfiguration:
     def rotate_pi_slash_two_1_0(self):
         self.w.wcs.pc = np.rot90(self.w.wcs.pc, axes=(1, 0))
 
+    def flip_left_right(self):
+        self.w.wcs.pc = np.fliplr(self.w.wcs.pc)
+
+    def flip_up_down(self):
+        self.w.wcs.pc = np.flipud(self.w.wcs.pc)
+
     def convert_sky_coordinates(self, ha: [float], dec: [float]) -> np.ndarray:
         return self.w.wcs_world2pix(ha, dec, self.ORIGIN)
 

@@ -86,9 +86,17 @@ class ImageComparisonInteractive(QtWidgets.QMainWindow):
         button_rot90_1_0 = QPushButton('rot90 axes=(1, 0)')
         button_rot90_1_0.clicked.connect(lambda: self.rotate_pi_slash_two_1_0())
 
+        button_flip_left_right = QPushButton('Flip left/right')
+        button_flip_left_right.clicked.connect(lambda: self.flip_left_right())
+
+        button_flip_up_down = QPushButton('Flip up/down')
+        button_flip_up_down.clicked.connect(lambda: self.flip_up_down())
+
         bottom_right_layout = QVBoxLayout()
         bottom_right_layout.addWidget(button_rot90_0_1)
         bottom_right_layout.addWidget(button_rot90_1_0)
+        bottom_right_layout.addWidget(button_flip_left_right)
+        bottom_right_layout.addWidget(button_flip_up_down)
 
         bottom_right_layout_widget = QWidget()
         bottom_right_layout_widget.setLayout(bottom_right_layout)
@@ -115,4 +123,12 @@ class ImageComparisonInteractive(QtWidgets.QMainWindow):
 
     def rotate_pi_slash_two_1_0(self):
         self.canvas.rotate_pi_slash_two_1_0()
+        self.wcs_header_label.setText(self.canvas.primary_header())
+
+    def flip_left_right(self):
+        self.canvas.flip_left_right()
+        self.wcs_header_label.setText(self.canvas.primary_header())
+
+    def flip_up_down(self):
+        self.canvas.flip_up_down()
         self.wcs_header_label.setText(self.canvas.primary_header())
