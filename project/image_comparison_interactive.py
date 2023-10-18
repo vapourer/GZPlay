@@ -73,12 +73,28 @@ class ImageComparisonInteractive(QtWidgets.QMainWindow):
         cdelt_layout_widget = QWidget()
         cdelt_layout_widget.setLayout(cdelt_layout)
 
-        main_layout.addWidget(filters_layout_widget, 1, 0)
-        main_layout.addWidget(cdelt_layout_widget, 2, 0)
+        bottom_left_layout = QVBoxLayout()
+        bottom_left_layout.addWidget(filters_layout_widget)
+        bottom_left_layout.addWidget(cdelt_layout_widget)
+
+        bottom_left_layout_widget = QWidget()
+        bottom_left_layout_widget.setLayout(bottom_left_layout)
+
+        main_layout.addWidget(bottom_left_layout_widget, 1, 0)
 
         self.wcs_header_label = QLabel()
         self.wcs_header_label.setText(self.canvas.primary_header())
-        main_layout.addWidget(self.wcs_header_label, 0, 1)
+
+        self.rotation_label = QLabel()
+        self.rotation_label.setText((self.canvas.calculate_rotation()))
+
+        top_right_layout = QVBoxLayout()
+        top_right_layout.addWidget(self.wcs_header_label)
+        top_right_layout.addWidget(self.rotation_label)
+
+        top_right_layout_widget = QWidget()
+        top_right_layout_widget.setLayout(top_right_layout)
+        main_layout.addWidget(top_right_layout_widget, 0, 1)
 
         button_rot90_0_1 = QPushButton('rot90 axes=(0,1)')
         button_rot90_0_1.clicked.connect(lambda: self.rotate_pi_slash_two_0_1())
@@ -86,17 +102,43 @@ class ImageComparisonInteractive(QtWidgets.QMainWindow):
         button_rot90_1_0 = QPushButton('rot90 axes=(1, 0)')
         button_rot90_1_0.clicked.connect(lambda: self.rotate_pi_slash_two_1_0())
 
+        rot90_layout = QHBoxLayout()
+        rot90_layout.addWidget(button_rot90_0_1)
+        rot90_layout.addWidget(button_rot90_1_0)
+
+        rot90_layout_widget = QWidget()
+        rot90_layout_widget.setLayout(rot90_layout)
+
         button_flip_left_right = QPushButton('Flip left/right')
         button_flip_left_right.clicked.connect(lambda: self.flip_left_right())
 
         button_flip_up_down = QPushButton('Flip up/down')
         button_flip_up_down.clicked.connect(lambda: self.flip_up_down())
 
+        flip_layout = QHBoxLayout()
+        flip_layout.addWidget(button_flip_left_right)
+        flip_layout.addWidget(button_flip_up_down)
+
+        flip_layout_widget = QWidget()
+        flip_layout_widget.setLayout(flip_layout)
+
+        self.name_input = QLineEdit()
+        self.name_input.setText('Filename')
+
+        button_save = QPushButton('Save image')
+        button_save.clicked.connect(lambda:  self.save_image())
+
+        save_layout = QHBoxLayout()
+        save_layout.addWidget(self.name_input)
+        save_layout.addWidget(button_save)
+
+        save_layout_widget = QWidget()
+        save_layout_widget.setLayout(save_layout)
+
         bottom_right_layout = QVBoxLayout()
-        bottom_right_layout.addWidget(button_rot90_0_1)
-        bottom_right_layout.addWidget(button_rot90_1_0)
-        bottom_right_layout.addWidget(button_flip_left_right)
-        bottom_right_layout.addWidget(button_flip_up_down)
+        bottom_right_layout.addWidget(rot90_layout_widget)
+        bottom_right_layout.addWidget(flip_layout_widget)
+        bottom_right_layout.addWidget(save_layout_widget)
 
         bottom_right_layout_widget = QWidget()
         bottom_right_layout_widget.setLayout(bottom_right_layout)
@@ -112,23 +154,32 @@ class ImageComparisonInteractive(QtWidgets.QMainWindow):
     def update_cdelt(self):
         self.canvas.update_cdelt(float(self.cdelt_input.text()))
         self.wcs_header_label.setText(self.canvas.primary_header())
+        self.rotation_label.setText((self.canvas.calculate_rotation()))
 
     def update_transformation_matrix(self, transformation: Transformation):
         self.canvas.update_transformation_matrix(transformation)
         self.wcs_header_label.setText(self.canvas.primary_header())
+        self.rotation_label.setText((self.canvas.calculate_rotation()))
 
     def rotate_pi_slash_two_0_1(self):
         self.canvas.rotate_pi_slash_two_0_1()
         self.wcs_header_label.setText(self.canvas.primary_header())
+        self.rotation_label.setText((self.canvas.calculate_rotation()))
 
     def rotate_pi_slash_two_1_0(self):
         self.canvas.rotate_pi_slash_two_1_0()
         self.wcs_header_label.setText(self.canvas.primary_header())
+        self.rotation_label.setText((self.canvas.calculate_rotation()))
 
     def flip_left_right(self):
         self.canvas.flip_left_right()
         self.wcs_header_label.setText(self.canvas.primary_header())
+        self.rotation_label.setText((self.canvas.calculate_rotation()))
 
     def flip_up_down(self):
         self.canvas.flip_up_down()
         self.wcs_header_label.setText(self.canvas.primary_header())
+        self.rotation_label.setText((self.canvas.calculate_rotation()))
+
+    def save_image(self):
+        self.canvas.figure.savefig(self.name_input.text() + '.png')

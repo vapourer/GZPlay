@@ -78,19 +78,22 @@ class ImageConfiguration:
     # The following function supplied by Claude Cornen,
     # who also advised on the WCS configuration.
     # See https://www.zooniverse.org/projects/zookeeper/galaxy-zoo/talk/1267/2992080?comment=5038565
-    def calculate_rotation(self):
-        determinant = (self.PC_DEFAULT[0] * self.PC_DEFAULT[3]) - (
-                self.PC_DEFAULT[1] * self.PC_DEFAULT[2])
+    def calculate_rotation(self) -> str:
+        determinant = (self.w.wcs.pc[0][0] * self.w.wcs.pc[1][1]) - (
+                self.w.wcs.pc[0][1] * self.w.wcs.pc[1][0])
 
         signed_unit = 1.0
 
         if determinant < 0.0:
             signed_unit = -1.0
 
-        rot1_cd = math.atan2(-self.PC_DEFAULT[2], signed_unit * self.PC_DEFAULT[0])
-        rot2_cd = math.atan2(signed_unit * self.PC_DEFAULT[1], self.PC_DEFAULT[3])
+        rot1_cd = math.atan2(-self.w.wcs.pc[1][0], signed_unit * self.w.wcs.pc[0][0])
+        rot2_cd = math.atan2(signed_unit * self.w.wcs.pc[0][1], self.w.wcs.pc[1][1])
         rot_av = (rot1_cd + rot2_cd) / 2.0
         crota_cd = math.degrees(rot_av)
         skew = math.degrees(abs(rot1_cd - rot2_cd))
 
-        print('Orientation degrees:', crota_cd, 'skew:', skew, sep='\t')
+        crota_cd_rounded = str('%4f' % crota_cd)
+        skew_rounded = str('%4f' % skew)
+
+        return str(f'Orientation (degrees) = {crota_cd_rounded}    Skew = {skew_rounded}')

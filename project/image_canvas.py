@@ -56,6 +56,9 @@ class ImageCanvas(FigureCanvasQTAgg):
     def primary_header(self) -> str:
         return self.image_configuration.primary_header()
 
+    def calculate_rotation(self) -> str:
+        return self.image_configuration.calculate_rotation()
+
     def update_image(self):
         self.figure.clear()
         self.axes = self.figure.add_subplot(111)
