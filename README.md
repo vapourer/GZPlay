@@ -1,2 +1,2 @@
 # GZPlay
-Interactive version (gcompvis) incomplete.  Needed to back up.
+Interactive version (gcompvis) - currently only works with initial JWST selection of images.
