@@ -60,6 +60,9 @@ class ImageComparisonInteractive(QtWidgets.QMainWindow):
         filters_layout_widget = QWidget()
         filters_layout_widget.setLayout(filters_layout)
 
+        button_reverse_signs = QPushButton('Reverse signs')
+        button_reverse_signs.clicked.connect(lambda: self.reverse_signs())
+
         self.cdelt_input = QLineEdit()
         cdelt = self.canvas.get_cdelt()[1]
         self.cdelt_input.setText(str('%7f' % cdelt))
@@ -67,6 +70,7 @@ class ImageComparisonInteractive(QtWidgets.QMainWindow):
         cdelt_button.clicked.connect(lambda: self.update_cdelt())
 
         cdelt_layout = QHBoxLayout()
+        cdelt_layout.addWidget(button_reverse_signs)
         cdelt_layout.addWidget(self.cdelt_input)
         cdelt_layout.addWidget(cdelt_button)
 
@@ -122,6 +126,19 @@ class ImageComparisonInteractive(QtWidgets.QMainWindow):
         flip_layout_widget = QWidget()
         flip_layout_widget.setLayout(flip_layout)
 
+        button_flip = QPushButton('Flip')
+        button_flip.clicked.connect(lambda: self.flip())
+
+        button_roll = QPushButton('Roll')
+        button_roll.clicked.connect(lambda: self.roll())
+
+        flip_roll_layout = QHBoxLayout()
+        flip_roll_layout.addWidget(button_flip)
+        flip_roll_layout.addWidget(button_roll)
+
+        flip_roll_layout_widget = QWidget()
+        flip_roll_layout_widget.setLayout(flip_roll_layout)
+
         self.name_input = QLineEdit()
         self.name_input.setText('Filename')
 
@@ -138,6 +155,7 @@ class ImageComparisonInteractive(QtWidgets.QMainWindow):
         bottom_right_layout = QVBoxLayout()
         bottom_right_layout.addWidget(rot90_layout_widget)
         bottom_right_layout.addWidget(flip_layout_widget)
+        bottom_right_layout.addWidget(flip_roll_layout_widget)
         bottom_right_layout.addWidget(save_layout_widget)
 
         bottom_right_layout_widget = QWidget()
@@ -178,6 +196,21 @@ class ImageComparisonInteractive(QtWidgets.QMainWindow):
 
     def flip_up_down(self):
         self.canvas.flip_up_down()
+        self.wcs_header_label.setText(self.canvas.primary_header())
+        self.rotation_label.setText((self.canvas.calculate_rotation()))
+
+    def flip(self):
+        self.canvas.flip()
+        self.wcs_header_label.setText(self.canvas.primary_header())
+        self.rotation_label.setText((self.canvas.calculate_rotation()))
+
+    def roll(self):
+        self.canvas.roll()
+        self.wcs_header_label.setText(self.canvas.primary_header())
+        self.rotation_label.setText((self.canvas.calculate_rotation()))
+
+    def reverse_signs(self):
+        self.canvas.reverse_signs()
         self.wcs_header_label.setText(self.canvas.primary_header())
         self.rotation_label.setText((self.canvas.calculate_rotation()))
 

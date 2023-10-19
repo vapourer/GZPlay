@@ -53,6 +53,18 @@ class ImageCanvas(FigureCanvasQTAgg):
         self.image_configuration.flip_up_down()
         self.update_image()
 
+    def flip(self):
+        self.image_configuration.flip()
+        self.update_image()
+
+    def roll(self):
+        self.image_configuration.roll()
+        self.update_image()
+
+    def reverse_signs(self):
+        self.image_configuration.reverse_signs()
+        self.update_image()
+
     def primary_header(self) -> str:
         return self.image_configuration.primary_header()
 
