@@ -79,9 +79,7 @@ class ImageConfiguration:
         self.w.wcs.pc = np.roll(self.w.wcs.pc, 1)
 
     def reverse_signs(self):
-        print('Before: ', self.w.wcs.pc)
         self.w.wcs.pc *= -1
-        print('After: ', self.w.wcs.pc)
 
     def convert_sky_coordinates(self, ha: [float], dec: [float]) -> np.ndarray:
         return self.w.wcs_world2pix(ha, dec, self.ORIGIN)
