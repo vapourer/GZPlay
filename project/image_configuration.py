@@ -22,10 +22,12 @@ class ImageConfiguration:
     PC_F444W = np.array([0.6498843448164907, 0.7600331166221908, 0.7600331166221908, -0.6498843448164907])
     CDELT_INITIAL_VALUE = np.array([-0.000004, 0.000004])
 
-    def __init__(self, ha: float, dec: float):
+    def __init__(self, ha: float, dec: float, search_radius=250):
+        self.image_radius = search_radius
+        self.centre_coordinate = self.image_radius - 1
         self.w = WCS(naxis=2)
         self.w.wcs.ctype = ['RA---TAN', 'DEC--TAN']
-        self.w.wcs.crpix = np.array([self.CENTRE_COORDINATE, self.CENTRE_COORDINATE])
+        self.w.wcs.crpix = np.array([self.centre_coordinate, self.centre_coordinate])
         self.w.wcs.crval = [ha, dec]
         self.w.wcs.cdelt = self.CDELT_INITIAL_VALUE
         self.w.wcs.pc = np.array([[self.PC_DEFAULT[0], self.PC_DEFAULT[1]], [self.PC_DEFAULT[2], self.PC_DEFAULT[3]]])

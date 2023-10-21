@@ -10,7 +10,7 @@ matplotlib.use('QtAgg')
 
 class ImageComparisonInteractive(QtWidgets.QMainWindow):
 
-    def __init__(self, ha: float, dec: float, png: str, ned: str, *args, **kwargs):
+    def __init__(self, ha: float, dec: float, png: str, ned: str, search_radius: int, *args, **kwargs):
         super(ImageComparisonInteractive, self).__init__(*args, **kwargs)
 
         self.png = png
@@ -18,7 +18,7 @@ class ImageComparisonInteractive(QtWidgets.QMainWindow):
 
         main_layout = QGridLayout()
 
-        self.canvas = ImageCanvas(ha, dec, png, ned)
+        self.canvas = ImageCanvas(ha, dec, png, ned, search_radius)
         self.canvas.load()
         main_layout.addWidget(self.canvas, 0, 0)
 

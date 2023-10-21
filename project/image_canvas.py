@@ -16,8 +16,8 @@ class ImageCanvas(FigureCanvasQTAgg):
     HEIGHT = 5
     DPI = 100
 
-    def __init__(self, ha: float, dec: float, png: str, ned: str):
-        self.image_configuration = ImageConfiguration(ha, dec)
+    def __init__(self, ha: float, dec: float, png: str, ned: str, search_radius: int):
+        self.image_configuration = ImageConfiguration(ha, dec, search_radius)
         self.image = np.asarray(Image.open(png))
         self.ned_rows = NedDataReader(ned).extract()
 
@@ -90,12 +90,12 @@ class ImageCanvas(FigureCanvasQTAgg):
         super(ImageCanvas, self).__init__(self.figure)
 
     def set_centre_and_ned_radius(self):
-        centre = plt.Circle((self.image_configuration.CENTRE_COORDINATE, self.image_configuration.CENTRE_COORDINATE),
+        centre = plt.Circle((self.image_configuration.centre_coordinate, self.image_configuration.centre_coordinate),
                             self.image_configuration.MARKER_RADIUS, color='w', fill=False)
         self.rendered_image.axes.add_artist(centre)
         outer_circle = plt.Circle(
-            (self.image_configuration.CENTRE_COORDINATE, self.image_configuration.CENTRE_COORDINATE),
-            self.image_configuration.IMAGE_RADIUS, color='w', fill=False)
+            (self.image_configuration.centre_coordinate, self.image_configuration.centre_coordinate),
+            self.image_configuration.image_radius, color='w', fill=False)
         self.rendered_image.axes.add_artist(outer_circle)
 
     def set_features(self):
